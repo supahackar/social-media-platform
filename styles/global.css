@@ -2,33 +2,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import url("reset.css");
 
+:root {
+  /* background: */
+  --bg-main: #ffedd8ff;
+  --bg-section: #f3d5b5ff;
+  --bg-card: #FFFFFF;
+  --bg-muted: #f3d5b5ff;
+
+  /* primary accent: */
+  --primary: #bc8a5fff;
+  --primary-strong: #a47148ff;
+  --primary-soft: #e7bc91ff;
+  
+  /* secondary accent: */
+  --secondary: #d4a276ff;
+  --secondary-hover: #bc8a5fff;
+  --secondary-muted: #e7bc91ff;
+  --secondary-glow: rgba(188, 138, 95, 0.25);
+
+  /* text color: */
+  --text: #a47148ff;
+  --text-muted: #bc8a5fff;
+  --text-dim: #d4a276ff;
+  
+  /* borders: */
+  --border: #f3d5b5ff;
+  --border-strong: #e7bc91ff;
+}
+
 @media screen and (prefers-color-scheme: light) {
-  :root {
-    /* background: */
-    --bg-main: #ffedd8ff;
-    --bg-section: #f3d5b5ff;
-    --bg-card: #FFFFFF;
-    --bg-muted: #f3d5b5ff;
+  .btn-primary {
+    color: #ffffff;
+  }
 
-    /* primary accent: */
-    --primary: #bc8a5fff;
-    --primary-strong: #a47148ff;
-    --primary-soft: #e7bc91ff;
-    
-    /* secondary accent: */
-    --secondary: #d4a276ff;
-    --secondary-hover: #bc8a5fff;
-    --secondary-muted: #e7bc91ff;
-    --secondary-glow: rgba(188, 138, 95, 0.25);
-
-    /* text color: */
-    --text: #a47148ff;
-    --text-muted: #bc8a5fff;
-    --text-dim: #d4a276ff;
-    
-    /* borders: */
-    --border: #f3d5b5ff;
-    --border-strong: #e7bc91ff;
+  .btn-primary:hover {
+    color: #ffffff;
   }
 }
 
@@ -155,12 +163,12 @@ nav {
 
 .btn-primary {
   background-color: var(--primary);
-  color: var(--text);
+  color: #ffffff;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-strong);
-  color: var(--text);
+  color: #ffffff;
 }
 
 .btn-secondary {
