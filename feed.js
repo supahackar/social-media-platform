@@ -130,4 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (deleteBtn) {
       deleteBtn.addEventListener("click", () => deletePost(post.id));
     }
+
+
+    const addCommentBtn = postDiv.querySelector('[data-action="add-comment"]');
+    addCommentBtn.addEventListener("click", () => addComment(post.id));
+    
     
