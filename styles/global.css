@@ -137,8 +137,8 @@ nav {
 
 /* Logout button styling */
 #logoutBtn {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   margin-left: auto;
 }
 
@@ -615,14 +615,17 @@ main.register-page .btn {
   padding: 2rem;
   border-radius: 1rem;
   border: 1px solid var(--border);
-  margin: 0 auto 2rem;
-  max-width: 1200px;
+  max-width: 500px;
+  margin: 2rem auto;
+  text-align: center;
 }
 
 .profile-info {
   display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-avatar {
@@ -647,7 +650,8 @@ main.register-page .btn {
 }
 
 .profile-details {
-  flex: 1;
+  width: 100%;
+  text-align: center;
 }
 
 .profile-details h1 {
@@ -664,16 +668,16 @@ main.register-page .btn {
 
 .profile-details .bio {
   color: var(--text);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   line-height: 1.6;
   font-size: 0.9rem;
-  max-width: 300px;
 }
 
 .profile-stats {
   display: flex;
   gap: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
 }
 
 .profile-stat {
@@ -694,6 +698,7 @@ main.register-page .btn {
 .profile-actions {
   display: flex;
   gap: 1rem;
+  justify-content: center;
 }
 
 /* Users List */

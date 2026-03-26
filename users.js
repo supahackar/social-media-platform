@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="user-details">
           <h3>${user.username}</h3>
           <p>${user.email}</p>
+          ${user.bio ? `<p style="color: var(--text); font-size: 0.9rem; margin-top: 0.5rem;">${user.bio}</p>` : ''}
           <p style="color: var(--text-dim); margin-top: 0.25rem;">
             ${userPosts.length} ${userPosts.length === 1 ? 'post' : 'posts'} · 
             ${user.followers.length} ${user.followers.length === 1 ? 'follower' : 'followers'}
