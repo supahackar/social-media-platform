@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-    if (password.length < 6) {
-      errorMessage.textContent = "Password must be at least 6 characters long.";
+    if (!isStrongPassword(password)) {
+      errorMessage.textContent = "Password must be at least 8 characters and contain: uppercase letter (A-Z), lowercase letter (a-z), number (0-9), and special character (! @ # $ % ^ & *)";
       return;
     }
     
@@ -66,5 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+
+  function isStrongPassword(password) {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*]/.test(password);
+    const isLongEnough = password.length >= 8;
+    
+    return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isLongEnough;
   }
 });
