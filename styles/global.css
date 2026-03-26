@@ -242,3 +242,12 @@ main {
   margin-top: 1.5rem;
   color: var(--text-muted);
 }
+
+/* Feed Layout */
+.feed-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
