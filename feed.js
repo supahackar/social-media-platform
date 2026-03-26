@@ -84,3 +84,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const isLiked = post.likes.includes(currentUser.id);
     const isOwnPost = post.userId === currentUser.id;
     
+    
+    // Calculate time ago
+    const timeAgo = getTimeAgo(post.createdAt);
+    
+    // Get user initials for avatar
+    const initials = post.username.substring(0, 2).toUpperCase();
+    
+    postDiv.innerHTML = `
+      <div class="post-header">
+        <div class="post-author">
+          <div class="post-avatar">${initials}</div>
+          <div class="post-author-info">
+            <h3>${post.username}</h3>
+            <p>${timeAgo}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="post-content">${post.content}</div>
+      
+      <div class="post-actions">
+        <button class="post-action-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}" data-action="like">
+          ❤️ ${post.likes.length} ${post.likes.length === 1 ? 'Like' : 'Likes'}
+        </button>
+        <button class="post-action-btn" data-post-id="${post.id}" data-action="comment">
+          💬 ${post.comments.length} ${post.comments.length === 1 ? 'Comment' : 'Comments'}
+        </button>
+        ${isOwnPost ? `<button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete">🗑️ Delete</button>` : ''}
+      </div>
+      
+      <div class="post-comments" id="comments-${post.id}">
+        <div class="comment-form">
+          <input type="text" placeholder="Write a comment..." id="comment-input-${post.id}" />
+          <button class="btn btn-small btn-primary" data-post-id="${post.id}" data-action="add-comment">Comment</button>
+        </div>
+        <div class="comments-list" id="comments-list-${post.id}"></div>
+      </div>
+    `;
+    
