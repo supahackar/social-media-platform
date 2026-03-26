@@ -243,7 +243,7 @@ main {
   color: var(--text-muted);
 }
 
-/* Feed Layout */
+/* Feed Layout: */
 .feed-layout {
   display: grid;
   grid-template-columns: 1fr;
