@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Users - Social Media Platform</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/global.css" />
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="feed.html" class="nav-logo">SocialHub</a>
+            <div class="nav-links">
+                <a href="feed.html">Feed</a>
+                <a href="users.html">Users</a>
+                <a href="profile.html">My Profile</a>
+                <button class="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">Discover Users</h1>
+        
+        <div class="users-list" id="usersContainer">
+            <!-- Users will be rendered here -->
+        </div>
+    </main>
+
+    <script src="users.js"></script>
+</body>
+</html>
