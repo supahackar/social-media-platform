@@ -163,10 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
       
       <div class="post-actions">
         <button class="post-action-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">
-          ❤️ ${post.likes.length} ${post.likes.length === 1 ? 'Like' : 'Likes'}
+          <img src="media/icons/heart.svg" alt="like" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> ${post.likes.length} ${post.likes.length === 1 ? 'Like' : 'Likes'}
         </button>
-        <span style="color: var(--text-muted); font-size: 0.875rem;">💬 ${post.comments.length} ${post.comments.length === 1 ? 'Comment' : 'Comments'}</span>
-        <button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete">🗑️ Delete</button>
+        <span style="color: var(--text-muted); font-size: 0.875rem;"><img src="media/icons/comment.svg" alt="comment" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> ${post.comments.length} ${post.comments.length === 1 ? 'Comment' : 'Comments'}</span>
+        <button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete"><img src="media/icons/delete.svg" alt="delete" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> Delete</button>
       </div>
     `;
     

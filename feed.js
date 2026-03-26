@@ -106,12 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
       
       <div class="post-actions">
         <button class="post-action-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}" data-action="like">
-          ❤️ ${post.likes.length} ${post.likes.length === 1 ? 'Like' : 'Likes'}
+          <img src="media/icons/heart.svg" alt="like" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> ${post.likes.length} ${post.likes.length === 1 ? 'Like' : 'Likes'}
         </button>
         <button class="post-action-btn" data-post-id="${post.id}" data-action="comment">
-          💬 ${post.comments.length} ${post.comments.length === 1 ? 'Comment' : 'Comments'}
+          <img src="media/icons/comment.svg" alt="comment" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> ${post.comments.length} ${post.comments.length === 1 ? 'Comment' : 'Comments'}
         </button>
-        ${isOwnPost ? `<button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete">🗑️ Delete</button>` : ''}
+        ${isOwnPost ? `<button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete"><img src="media/icons/delete.svg" alt="delete" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> Delete</button>` : ''}
       </div>
       
       <div class="post-comments" id="comments-${post.id}">
