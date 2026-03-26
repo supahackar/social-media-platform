@@ -122,4 +122,12 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="comments-list" id="comments-list-${post.id}"></div>
       </div>
     `;
+     // Add event listeners
+    const likeBtn = postDiv.querySelector('[data-action="like"]');
+    likeBtn.addEventListener("click", () => toggleLike(post.id));
+    
+    const deleteBtn = postDiv.querySelector('[data-action="delete"]');
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", () => deletePost(post.id));
+    }
     
