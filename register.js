@@ -34,34 +34,29 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-
     const users = JSON.parse(localStorage.getItem("users")) || [];
     
-    // Check if email already exists
     if (users.find(u => u.email === email)) {
       errorMessage.textContent = "An account with this email already exists.";
       return;
     }
     
-    // Check if username already exists
     if (users.find(u => u.username === username)) {
       errorMessage.textContent = "This username is already taken.";
       return;
     }
     
-    
     const newUser = {
       id: Date.now().toString(),
       username: username,
       email: email,
-      password: password, 
+      password: password, // In a real app, this would be hashed!
       bio: "",
       followers: [],
       following: [],
       createdAt: new Date().toISOString()
     };
     
-    // Add user to users array
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
     

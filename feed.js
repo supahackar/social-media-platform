@@ -1,23 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Check if user is logged in
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   if (!currentUser) {
     window.location.href = "login.html";
     return;
   }
 
+  const commentDisplayCount = {};
+
   const postsContainer = document.getElementById("postsContainer");
   const createPostBtn = document.getElementById("createPostBtn");
   const postContent = document.getElementById("postContent");
   const logoutBtn = document.getElementById("logoutBtn");
 
-  // Logout handler
   logoutBtn.addEventListener("click", () => {
     localStorage.removeItem("currentUser");
     window.location.href = "login.html";
   });
 
-  // Create post handler
   createPostBtn.addEventListener("click", () => {
     const content = postContent.value.trim();
     
@@ -49,11 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const allPosts = JSON.parse(localStorage.getItem("posts")) || [];
     const users = JSON.parse(localStorage.getItem("users")) || [];
     
-    // Get users the current user is following
     const currentUserData = users.find(u => u.id === currentUser.id);
     const followingIds = currentUserData ? currentUserData.following : [];
     
-    // Filter posts from followed users + own posts
     const feedPosts = allPosts.filter(post => 
       post.userId === currentUser.id || followingIds.includes(post.userId)
     );
@@ -84,11 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const isLiked = post.likes.includes(currentUser.id);
     const isOwnPost = post.userId === currentUser.id;
     
-    
-    // Calculate time ago
     const timeAgo = getTimeAgo(post.createdAt);
     
-    // Get user initials for avatar
     const initials = post.username.substring(0, 2).toUpperCase();
     
     postDiv.innerHTML = `
@@ -96,25 +90,29 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="post-author">
           <div class="post-avatar">${initials}</div>
           <div class="post-author-info">
-            <h3>${post.username}</h3>
-            <p>${timeAgo}</p>
+            <div class="post-author-header">
+              <h3>${post.username}</h3>
+              <p class="post-time">${timeAgo}</p>
+            </div>
           </div>
         </div>
+        ${isOwnPost ? `<button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete"><svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ''}
       </div>
       
       <div class="post-content">${post.content}</div>
       
       <div class="post-actions">
         <button class="post-action-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}" data-action="like">
-          <img src="media/icons/heart.svg" alt="like" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> ${post.likes.length} ${post.likes.length === 1 ? 'Like' : 'Likes'}
+          <svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="m12 19.654l-.758-.685q-2.448-2.236-4.05-3.828q-1.601-1.593-2.528-2.81q-.926-1.218-1.296-2.2T3 8.15q0-1.908 1.296-3.204T7.5 3.65q1.32 0 2.475.675T12 6.289Q12.87 5 14.025 4.325T16.5 3.65q1.908 0 3.204 1.296T21 8.15q0 .996-.368 1.98q-.369.986-1.296 2.202t-2.519 2.809q-1.592 1.592-4.06 3.828z"/></svg>
+          ${post.likes.length} ${post.likes.length === 1 ? 'Like' : 'Likes'}
         </button>
         <button class="post-action-btn" data-post-id="${post.id}" data-action="comment">
-          <img src="media/icons/comment.svg" alt="comment" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> ${post.comments.length} ${post.comments.length === 1 ? 'Comment' : 'Comments'}
+          <svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2m-2 12H6v-2h12zm0-3H6V9h12zm0-3H6V6h12z"/></svg>
+          ${post.comments.length} ${post.comments.length === 1 ? 'Comment' : 'Comments'}
         </button>
-        ${isOwnPost ? `<button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete"><img src="media/icons/delete.svg" alt="delete" style="width: 20px; height: 20px; display: inline; margin-right: 0.5rem;" /> Delete</button>` : ''}
       </div>
       
-      <div class="post-comments" id="comments-${post.id}">
+      <div class="post-comments" id="comments-${post.id}" style="display: none;">
         <div class="comment-form">
           <input type="text" placeholder="Write a comment..." id="comment-input-${post.id}" />
           <button class="btn btn-small btn-primary" data-post-id="${post.id}" data-action="add-comment">Comment</button>
@@ -122,22 +120,26 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="comments-list" id="comments-list-${post.id}"></div>
       </div>
     `;
-     // Add event listeners
+    
     const likeBtn = postDiv.querySelector('[data-action="like"]');
     likeBtn.addEventListener("click", () => toggleLike(post.id));
+    
+    const commentBtn = postDiv.querySelector('[data-action="comment"]');
+    commentBtn.addEventListener("click", () => {
+      const commentsSection = postDiv.querySelector(`#comments-${post.id}`);
+      commentsSection.style.display = commentsSection.style.display === "none" ? "block" : "none";
+    });
     
     const deleteBtn = postDiv.querySelector('[data-action="delete"]');
     if (deleteBtn) {
       deleteBtn.addEventListener("click", () => deletePost(post.id));
     }
-
-
+    
     const addCommentBtn = postDiv.querySelector('[data-action="add-comment"]');
     addCommentBtn.addEventListener("click", () => addComment(post.id));
     
-    
-    // Render existing comments
-    renderComments(post.id);
+    const commentsList = postDiv.querySelector(`#comments-list-${post.id}`);
+    renderComments(post.id, commentsList);
     
     return postDiv;
   }
@@ -197,33 +199,87 @@ document.addEventListener("DOMContentLoaded", () => {
     renderComments(postId);
   }
 
-  function renderComments(postId) {
+  function deleteComment(postId, commentIndex) {
+    if (!confirm("Are you sure you want to delete this comment?")) {
+      return;
+    }
+    
     const posts = JSON.parse(localStorage.getItem("posts")) || [];
     const post = posts.find(p => p.id === postId);
     
     if (!post) return;
     
-    const commentsList = document.getElementById(`comments-list-${postId}`);
+    post.comments.splice(commentIndex, 1);
+    localStorage.setItem("posts", JSON.stringify(posts));
+    renderComments(postId);
+  }
+
+  function renderComments(postId, commentsList) {
+    const posts = JSON.parse(localStorage.getItem("posts")) || [];
+    const post = posts.find(p => p.id === postId);
+    
+    if (!post) return;
+    
+    if (!commentsList) {
+      commentsList = document.getElementById(`comments-list-${postId}`);
+    }
     if (!commentsList) return;
+    
+    if (!commentDisplayCount[postId]) {
+      commentDisplayCount[postId] = 5;
+    }
     
     commentsList.innerHTML = "";
     
-    post.comments.forEach(comment => {
+    const displayCount = commentDisplayCount[postId];
+    const totalComments = post.comments.length;
+    
+    const reversedComments = [...post.comments].reverse();
+    const commentsToShow = reversedComments.slice(0, displayCount);
+    
+    commentsToShow.forEach((comment, displayIndex) => {
       const commentDiv = document.createElement("div");
       commentDiv.classList.add("comment");
       
       const initials = comment.username.substring(0, 2).toUpperCase();
+      const isCommentAuthor = comment.userId === currentUser.id;
+      const commentTimeAgo = getTimeAgo(comment.createdAt);
+      
+      const originalIndex = totalComments - 1 - displayIndex;
       
       commentDiv.innerHTML = `
         <div class="comment-avatar">${initials}</div>
         <div class="comment-content">
-          <div class="comment-author">${comment.username}</div>
+          <div class="comment-author-header">
+            <div class="comment-author">${comment.username}</div>
+            <div class="comment-time">${commentTimeAgo}</div>
+          </div>
           <div class="comment-text">${comment.text}</div>
         </div>
+        ${isCommentAuthor ? `<button class="comment-delete-btn" data-post-id="${postId}" data-comment-index="${originalIndex}"><svg class="comment-delete-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ''}
       `;
+      
+      const deleteBtn = commentDiv.querySelector('.comment-delete-btn');
+      if (deleteBtn) {
+        deleteBtn.addEventListener("click", () => deleteComment(postId, originalIndex));
+      }
       
       commentsList.appendChild(commentDiv);
     });
+    
+    // Add "Read More" button if there are more comments
+    if (totalComments > displayCount) {
+      const readMoreBtn = document.createElement("button");
+      readMoreBtn.classList.add("btn", "btn-small");
+      readMoreBtn.style.marginTop = "0.75rem";
+      readMoreBtn.style.width = "100%";
+      readMoreBtn.textContent = `Read More (${totalComments - displayCount} more)`;
+      readMoreBtn.addEventListener("click", () => {
+        commentDisplayCount[postId] += 5;
+        renderComments(postId);
+      });
+      commentsList.appendChild(readMoreBtn);
+    }
   }
 
   function getTimeAgo(timestamp) {
@@ -237,6 +293,5 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${Math.floor(seconds / 86400)}d ago`;
   }
 
-  // Initial render
   renderPosts();
 });

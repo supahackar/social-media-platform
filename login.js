@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get users from localStorage
     const users = JSON.parse(localStorage.getItem("users")) || [];
     
-
+    // Find user
     const user = users.find(u => u.email === email && u.password === password);
     
     if (!user) {
@@ -22,10 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-
     localStorage.setItem("currentUser", JSON.stringify(user));
     
-
     window.location.href = "feed.html";
   });
 });
