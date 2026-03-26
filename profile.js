@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const initials = user.username.substring(0, 2).toUpperCase();
     document.getElementById("profileAvatar").textContent = initials;
+    document.getElementById("footerProfileAvatar").textContent = initials;
     document.getElementById("profileUsername").textContent = user.username;
     document.getElementById("profileEmail").textContent = user.email;
     document.getElementById("profileBio").textContent = user.bio || "Add a bio to your profile";

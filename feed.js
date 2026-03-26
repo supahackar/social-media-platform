@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  const initials = currentUser.username.substring(0, 2).toUpperCase();
+  const footerProfileAvatar = document.getElementById("footerProfileAvatar");
+  if (footerProfileAvatar) {
+    footerProfileAvatar.textContent = initials;
+  }
+
   const commentDisplayCount = {};
 
   const postsContainer = document.getElementById("postsContainer");
