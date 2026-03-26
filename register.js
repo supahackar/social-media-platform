@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-    // Get existing users
+
     const users = JSON.parse(localStorage.getItem("users")) || [];
     
     // Check if email already exists

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "login.html";
   });
 
-  // Load and display profile
+
   function loadProfile() {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const user = users.find(u => u.id === currentUser.id);
@@ -47,8 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("followersCount").textContent = user.followers.length;
     document.getElementById("followingCount").textContent = user.following.length;
     
-    // Render user posts
+
     renderUserPosts();
+<<<<<<< HEAD
   }
 
   // Edit profile toggle
@@ -201,3 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial load
   loadProfile();
 });
+=======
+}});
+>>>>>>> d2ddb6a (minor code adjustments)
