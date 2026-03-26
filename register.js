@@ -49,12 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-    // Create new user
+    
     const newUser = {
       id: Date.now().toString(),
       username: username,
       email: email,
-      password: password, // In a real app, this would be hashed!
+      password: password, 
       bio: "",
       followers: [],
       following: [],
@@ -65,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
     
-    // Redirect to login
     window.location.href = "login.html";
   });
   
