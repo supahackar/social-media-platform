@@ -136,3 +136,107 @@ document.addEventListener("DOMContentLoaded", () => {
     addCommentBtn.addEventListener("click", () => addComment(post.id));
     
     
+    // Render existing comments
+    renderComments(post.id);
+    
+    return postDiv;
+  }
+
+  function toggleLike(postId) {
+    const posts = JSON.parse(localStorage.getItem("posts")) || [];
+    const post = posts.find(p => p.id === postId);
+    
+    if (!post) return;
+    
+    const likeIndex = post.likes.indexOf(currentUser.id);
+    
+    if (likeIndex > -1) {
+      post.likes.splice(likeIndex, 1);
+    } else {
+      post.likes.push(currentUser.id);
+    }
+    
+    localStorage.setItem("posts", JSON.stringify(posts));
+    renderPosts();
+  }
+
+  function deletePost(postId) {
+    if (!confirm("Are you sure you want to delete this post?")) {
+      return;
+    }
+    
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+    posts = posts.filter(p => p.id !== postId);
+    localStorage.setItem("posts", JSON.stringify(posts));
+    renderPosts();
+  }
+
+  function addComment(postId) {
+    const input = document.getElementById(`comment-input-${postId}`);
+    const commentText = input.value.trim();
+    
+    if (!commentText) return;
+    
+    const posts = JSON.parse(localStorage.getItem("posts")) || [];
+    const post = posts.find(p => p.id === postId);
+    
+    if (!post) return;
+    
+    const newComment = {
+      id: Date.now().toString(),
+      userId: currentUser.id,
+      username: currentUser.username,
+      text: commentText,
+      createdAt: new Date().toISOString()
+    };
+    
+    post.comments.push(newComment);
+    localStorage.setItem("posts", JSON.stringify(posts));
+    
+    input.value = "";
+    renderComments(postId);
+  }
+
+  function renderComments(postId) {
+    const posts = JSON.parse(localStorage.getItem("posts")) || [];
+    const post = posts.find(p => p.id === postId);
+    
+    if (!post) return;
+    
+    const commentsList = document.getElementById(`comments-list-${postId}`);
+    if (!commentsList) return;
+    
+    commentsList.innerHTML = "";
+    
+    post.comments.forEach(comment => {
+      const commentDiv = document.createElement("div");
+      commentDiv.classList.add("comment");
+      
+      const initials = comment.username.substring(0, 2).toUpperCase();
+      
+      commentDiv.innerHTML = `
+        <div class="comment-avatar">${initials}</div>
+        <div class="comment-content">
+          <div class="comment-author">${comment.username}</div>
+          <div class="comment-text">${comment.text}</div>
+        </div>
+      `;
+      
+      commentsList.appendChild(commentDiv);
+    });
+  }
+
+  function getTimeAgo(timestamp) {
+    const now = new Date();
+    const posted = new Date(timestamp);
+    const seconds = Math.floor((now - posted) / 1000);
+    
+    if (seconds < 60) return "Just now";
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+    return `${Math.floor(seconds / 86400)}d ago`;
+  }
+
+  // Initial render
+  renderPosts();
+});
