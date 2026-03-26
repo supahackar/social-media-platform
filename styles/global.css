@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("reset.css");
+
+@media screen and (prefers-color-scheme: light) {
+  :root {
+    /* background: */
+    --bg-main: #FAF9FF;
+    --bg-section: #F3F0FF;
+    --bg-card: #FFFFFF;
+    --bg-muted: #EDE9FE;
+
+    /* primary accent: */
+    --primary: #6D28D9;
+    --primary-strong: #5B21B6;
+    --primary-soft: #DDD6FE;
+    
+    /* secondary accent: */
+    --secondary: #a081fa;
+    --secondary-hover: #B7A1FB;
+    --secondary-muted: #C4B5FD;
+    --secondary-glow: rgba(167, 139, 250, 0.25);
+
+    /* text color: */
+    --text: #1F1B2E;
+    --text-muted: #5B5675;
+    --text-dim: #7C78A0;
+    
+    /* borders: */
+    --border: #E9E5F5;
+    --border-strong: #DDD6FE;
+  }
+}
