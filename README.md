@@ -156,23 +156,19 @@ All data is stored in localStorage as JSON:
 - **Fully responsive** - Works on all screen sizes
 - **Dark mode support** - Automatically adapts to system preference
 - **Persistent data** - All data saved in localStorage
-- **Clean code** - Well-organized, commented, student-level code
+- **Clean code** - Well-organized, commented
 - **Form validation** - Email format, password strength checks
 - **Real-time updates** - Immediate UI updates after actions
 
 ## 📝 Notes
 
-- This is a client-side only application (no backend)
-- Passwords are stored in plain text in localStorage (for educational purposes only - never do this in production!)
-- Data is stored per-browser (clearing browser data will reset everything)
-- No user authentication tokens (session managed with currentUser in localStorage)
+- This is a client-side only application
+- Passwords are stored in plain text in localStorage
+- Data is stored per-browser 
 
 ## 🎓 Course Information
 
 - **Course**: CMPS350 - Web Development Fundamentals
 - **Project**: Phase 1 - Social Media Platform
-- **Due Date**: March 12, 2026
+- **Due Date**: March 26, 2026
 
-## 📄 License
-
-This project is for educational purposes only.
