@@ -321,7 +321,7 @@ main.register-page .btn {
   grid-template-columns: 1fr;
   gap: 2rem;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0.5rem auto 0;
 }
 
 /* Post Creator */
@@ -616,7 +616,7 @@ main.register-page .btn {
   border-radius: 1rem;
   border: 1px solid var(--border);
   max-width: 500px;
-  margin: 2rem auto;
+  margin: 0.5rem auto 1rem;
   text-align: center;
 }
 
