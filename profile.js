@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
     renderUserPosts();
-<<<<<<< HEAD
   }
 
   // Edit profile toggle
@@ -202,6 +201,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial load
   loadProfile();
 });
-=======
-}});
->>>>>>> d2ddb6a (minor code adjustments)
