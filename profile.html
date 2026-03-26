@@ -7,7 +7,81 @@
     <link rel="stylesheet" href="styles/global.css" />
 </head>
 <body>
+    <nav>
+        <div class="nav-container">
+            <a href="feed.html" class="nav-logo">SocialHub</a>
+            <div class="nav-links">
+                <a href="feed.html">Feed</a>
+                <a href="users.html">Users</a>
+                <a href="profile.html">My Profile</a>
+                <button class="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
 
+    <main>
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-info">
+                <div class="profile-avatar" id="profileAvatar"></div>
+                <div class="profile-details">
+                    <h1 id="profileUsername"></h1>
+                    <p class="email" id="profileEmail"></p>
+                    <p class="bio" id="profileBio">No bio yet.</p>
+                    
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="profile-stat-number" id="postsCount">0</div>
+                            <div class="profile-stat-label">Posts</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-number" id="followersCount">0</div>
+                            <div class="profile-stat-label">Followers</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-number" id="followingCount">0</div>
+                            <div class="profile-stat-label">Following</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="btn btn-primary" id="editProfileBtn">Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Form (Hidden by default) -->
+        <div id="editProfileForm" style="display: none;">
+            <div class="auth-card" style="max-width: 600px; margin: 0 auto 2rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">Edit Profile</h2>
+                
+                <div class="form-group">
+                    <label for="editUsername">Username</label>
+                    <input type="text" id="editUsername" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="editBio">Bio</label>
+                    <textarea id="editBio" placeholder="Tell us about yourself..."></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+                    <button class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Posts -->
+        <div class="feed-layout">
+            <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">My Posts</h2>
+            <div class="posts-container" id="postsContainer">
+                <!-- User posts will be rendered here -->
+            </div>
+        </div>
+    </main>
+
+    <script src="profile.js"></script>
 </body>
 </html>
-
