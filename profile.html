@@ -1,22 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>My Profile - ClickChat</title>
+    <title>ClickChat</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="media/icons/website_icon.png" />
+    <link rel="icon" type="image/png" href="media/icons/website_icon.png?v=3" />
     <link rel="stylesheet" href="styles/global.css" />
 </head>
 <body>
     <nav>
         <div class="nav-container">
-            <a href="feed.html" class="nav-logo">ClickChat</a>
-            <div class="nav-links">
-                <a href="feed.html">Feed</a>
-                <a href="users.html">Users</a>
-                <a href="profile.html">My Profile</a>
-                <button class="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
-            </div>
+            <a href="feed.html" class="nav-logo">
+                <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.775 22l-3.625-7.8L6 20V2l14 11h-7.1l3.6 7.725z"/></svg>
+                ClickChat
+            </a>
+            <button class="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
         </div>
     </nav>
 
@@ -28,7 +26,7 @@
                 <div class="profile-details">
                     <h1 id="profileUsername"></h1>
                     <p class="email" id="profileEmail"></p>
-                    <p class="bio" id="profileBio">No bio yet.</p>
+                    <p class="bio" id="profileBio"></p>
                     
                     <div class="profile-stats">
                         <div class="profile-stat">
@@ -82,6 +80,14 @@
             </div>
         </div>
     </main>
+
+    <footer>
+        <div class="footer-nav">
+            <a href="feed.html">Feed</a>
+            <a href="users.html">Users</a>
+            <a href="profile.html">My Profile</a>
+        </div>
+    </footer>
 
     <script src="profile.js"></script>
 </body>
