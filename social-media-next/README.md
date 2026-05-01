@@ -1,3 +1,40 @@
+# ClickChat — Social Media Platform (Phase 2)
+
+CMPS 350 Web Development — Phase 2
+
+## Project Structure
+
+The Phase 1 HTML/CSS/JS files live in `public/` and are served statically by Next.js.  
+The **only** new Next.js React page built from scratch is the stats page.
+
+```
+social-media-next/
+  public/
+    feed.html        ← Phase 1 (served at /feed.html)
+    feed.js
+    login.html
+    login.js
+    register.html
+    register.js
+    profile.html
+    profile.js
+    users.html
+    users.js
+    styles/
+    media/
+  app/               ← Next.js app router
+    api/             ← REST API routes
+    stats/           ← Statistics page (React/Next.js)
+  repos/             ← Data repository (Prisma queries)
+  prisma/            ← Schema, migrations, seed
+```
+
+The HTML/JS files call the Next.js APIs with `fetch("/api/...")` instead of localStorage.  
+APIs live at `http://localhost:3000/api/...`  
+Stats page lives at `http://localhost:3000/stats`
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
