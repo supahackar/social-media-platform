@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid(2))
+  username  String   @unique
+  email     String   @unique
+  password  String
+  bio       String?
+  createdAt DateTime @default(now())
+
+  posts     Post[]
+  likes     Like[]
+  comments  Comment[]
+  followers Follow[]  @relation("following")
+  following Follow[]  @relation("follower")
+}
+
+model Post {
+  id        String   @id @default(cuid(2))
+  content   String
+  createdAt DateTime @default(now())
+  userId    String
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes    Like[]
+  comments Comment[]
+}
+
+model Like {
+  id     String @id @default(cuid(2))
+  userId String
+  postId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id        String   @id @default(cuid(2))
+  content   String
+  createdAt DateTime @default(now())
+  userId    String
+  postId    String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Follow {
+  id          String @id @default(cuid(2))
+  followerId  String
+  followingId String
+
+  follower  User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+}
