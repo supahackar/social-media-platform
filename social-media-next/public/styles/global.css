@@ -125,63 +125,6 @@ nav {
   width: 2.25rem;
   height: 2.25rem;
   color: var(--text);
-  display: inline-block;
-  transition: transform 0.18s ease;
-}
-
-.nav-logo-text {
-  display: inline-block;
-  transition: transform 0.18s ease;
-}
-
-.nav-logo:hover .nav-logo-icon {
-  transform: scale(1.25);
-}
-
-.nav-logo:hover .nav-logo-text {
-  transform: scale(1.06);
-}
-
-/* ── Loading / Skeleton ───────────────────────────────────── */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-.loading-spinner {
-  width: 44px;
-  height: 44px;
-  border: 3px solid var(--border);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  margin: 0 auto;
-}
-
-.loading-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 4rem 1rem;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--bg-card) 25%,
-    var(--bg-muted) 50%,
-    var(--bg-card) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-  border-radius: 10px;
 }
 
 .nav-links {
@@ -426,24 +369,20 @@ main.register-page .btn {
   width: 100%;
   padding: 1rem;
   border: 1px solid var(--border);
-  border-left: 3px solid var(--primary);
   border-radius: 0.75rem;
   font-family: inherit;
   font-size: 1rem;
   background-color: var(--bg-main);
   color: var(--text);
   resize: vertical;
-  min-height: 140px;
+  min-height: 100px;
   max-height: 300px;
   margin-bottom: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .post-creator textarea:focus {
   outline: none;
   border-color: var(--primary);
-  border-left-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 99, 102, 241), 0.1);
 }
 
 .post-creator-actions {
@@ -494,15 +433,6 @@ main.register-page .btn {
   font-weight: 600;
   color: white;
   font-size: 1.25rem;
-  transition: transform 0.18s ease;
-}
-
-.post-avatar:hover {
-  transform: scale(1.15);
-}
-
-.post:hover .post-avatar {
-  transform: scale(1.15);
 }
 
 .post-avatar img {
@@ -549,7 +479,7 @@ main.register-page .btn {
 
 .post-actions {
   display: flex;
-  gap: 0.4rem;
+  gap: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
   justify-content: flex-end;
@@ -564,31 +494,19 @@ main.register-page .btn {
   font-size: 0.875rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  transition: transform 0.18s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .post-action-btn:hover {
-  background-color: transparent;
-  transform: scale(1.08);
-}
-
-.post-action-btn:not(.post-delete-btn):not(.liked):hover .post-action-icon {
+  background-color: var(--bg-muted);
   color: var(--text);
 }
 
-.post-action-btn[data-action="like"]:hover .post-action-icon {
-  color: #E85A5A;
-}
-
 .post-action-btn.liked {
-  color: #E85A5A;
-}
-
-.post-action-btn.liked .post-action-icon {
-  color: #E85A5A;
+  color: var(--primary);
 }
 
 .post-action-icon {
@@ -603,13 +521,11 @@ main.register-page .btn {
 
 .post-delete-btn {
   color: var(--text);
-  transition: transform 0.18s ease, color 0.18s ease;
 }
 
 .post-delete-btn:hover {
-  background-color: transparent;
+  background-color: #FEE2E2;
   color: #dc2626;
-  transform: scale(1.2);
 }
 
 /* Comments */
@@ -625,31 +541,19 @@ main.register-page .btn {
   margin-bottom: 1rem;
 }
 
-.comment-form textarea {
+.comment-form input {
   flex: 1;
-  min-width: 0;
   padding: 0.75rem;
   border: 1px solid var(--border);
-  border-left: 3px solid var(--primary);
   border-radius: 0.75rem;
   font-family: inherit;
-  font-size: 0.95rem;
   background-color: var(--bg-main);
   color: var(--text);
-  resize: none;
-  height: 56px;
-  min-height: 56px;
-  max-height: 56px;
-  overflow-y: auto;
-  line-height: 1.5;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.comment-form textarea:focus {
+.comment-form input:focus {
   outline: none;
   border-color: var(--primary);
-  border-left-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 99, 102, 241), 0.1);
 }
 
 .comments-list {
@@ -676,16 +580,10 @@ main.register-page .btn {
   color: white;
   font-size: 0.875rem;
   flex-shrink: 0;
-  transition: transform 0.18s ease;
-}
-
-.comment:hover .comment-avatar {
-  transform: scale(1.15);
 }
 
 .comment-content {
   flex: 1;
-  min-width: 0;
   background-color: var(--bg-muted);
   padding: 0.75rem;
   border-radius: 0.75rem;
@@ -711,27 +609,19 @@ main.register-page .btn {
 .comment-text {
   color: var(--text);
   font-size: 0.875rem;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  min-width: 0;
 }
 
 .comment-delete-btn {
   background: none;
   border: none;
-  color: var(--text-muted);
+  color: var(--text);
   cursor: pointer;
   padding: 0.25rem;
   border-radius: 0.25rem;
-  transition: transform 0.18s ease, color 0.18s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   flex-shrink: 0;
-}
-
-.comment-delete-btn:hover {
-  color: #dc2626;
-  transform: scale(1.2);
 }
 
 .comment-delete-btn:hover .comment-delete-icon {
@@ -741,7 +631,8 @@ main.register-page .btn {
 .comment-delete-icon {
   width: 1.25rem;
   height: 1.25rem;
-  color: inherit;
+  color: var(--text);
+  transition: color 0.2s ease;
 }
 
 /* Profile */
@@ -775,12 +666,6 @@ main.register-page .btn {
   color: white;
   font-size: 3rem;
   flex-shrink: 0;
-  transition: transform 0.18s ease;
-  cursor: default;
-}
-
-.profile-avatar:hover {
-  transform: scale(1.1);
 }
 
 .profile-avatar img {
@@ -800,13 +685,6 @@ main.register-page .btn {
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: var(--text);
-  display: inline-block;
-  transition: transform 0.18s ease;
-  cursor: default;
-}
-
-.profile-details h1:hover {
-  transform: scale(1.05);
 }
 
 .profile-details .email {
@@ -835,14 +713,7 @@ main.register-page .btn {
 .profile-stat-number {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text);
-  display: inline-block;
-  transition: transform 0.18s ease;
-  cursor: default;
-}
-
-.profile-stat-number:hover {
-  transform: scale(1.15);
+  color: var(--primary);
 }
 
 .profile-stat-label {
@@ -878,10 +749,6 @@ main.register-page .btn {
   border-color: var(--border-strong);
 }
 
-.user-card:hover .user-avatar {
-  transform: scale(1.15);
-}
-
 .user-info {
   display: flex;
   gap: 1rem;
@@ -891,7 +758,6 @@ main.register-page .btn {
 .user-avatar {
   width: 60px;
   height: 60px;
-  flex-shrink: 0;
   border-radius: 50%;
   background-color: var(--primary);
   display: flex;
@@ -900,7 +766,6 @@ main.register-page .btn {
   font-weight: 600;
   color: white;
   font-size: 1.5rem;
-  transition: transform 0.18s ease;
 }
 
 .user-avatar img {
@@ -957,34 +822,25 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 68px;
-  height: 68px;
+  width: 60px;
+  height: 60px;
   padding: 0;
   border-radius: 50%;
-  background-color: transparent !important;
+  background-color: transparent;
   border: none;
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: all 0.2s ease;
+  color: var(--text);
 }
 
 .footer-nav-btn:hover {
-  transform: scale(1.15);
-  background-color: transparent !important;
-  color: inherit;
-}
-
-.footer-nav-btn:active {
-  transform: scale(0.9);
+  background-color: var(--bg-muted);
+  color: var(--primary);
 }
 
 .footer-nav-btn svg {
-  width: 30px;
-  height: 30px;
-}
-
-.footer-nav-btn.stats-nav-btn svg {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
 }
 
 .profile-btn {
@@ -1133,7 +989,7 @@ footer {
 /* Landing page — feature card hover */
 .feature-card {
   background-color: var(--bg-card);
-  padding: 2.5rem;
+  padding: 1.5rem;
   border-radius: 1rem;
   border: 1px solid var(--border);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
