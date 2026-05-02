@@ -34,6 +34,13 @@ export async function getUserByEmail(email) {
   });
 }
 
+export async function getUserByUsername(username) {
+  return await prisma.user.findUnique({
+    where: { username },
+    select: { id: true, username: true, email: true, password: true, bio: true },
+  });
+}
+
 export async function createUser(data) {
   return await prisma.user.create({
     data: { username: data.username, email: data.email, password: data.password, bio: data.bio ?? "" },

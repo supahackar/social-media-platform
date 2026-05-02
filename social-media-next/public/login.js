@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
+    const identifier = document.getElementById("identifier").value.trim();
     const password = document.getElementById("password").value;
 
     errorMessage.textContent = "";
@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ identifier, password }),
     });
 
     if (!res.ok) {
-      errorMessage.textContent = "Invalid email or password.";
+      errorMessage.textContent = "Invalid credentials.";
       return;
     }
 

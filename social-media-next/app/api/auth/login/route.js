@@ -2,11 +2,15 @@ import * as users from "@/repos/users";
 
 export async function POST(request) {
   try {
-    const { email, password } = await request.json();
+    const { identifier, password } = await request.json();
 
-    const user = await users.getUserByEmail(email);
+    const isEmail = identifier.includes("@");
+    const user = isEmail
+      ? await users.getUserByEmail(identifier.toLowerCase())
+      : await users.getUserByUsername(identifier.toLowerCase());
+
     if (!user || user.password !== password) {
-      return Response.json({ error: "Invalid email or password." }, { status: 401 });
+      return Response.json({ error: "Invalid credentials." }, { status: 401 });
     }
 
     const { password: _, ...safeUser } = user;

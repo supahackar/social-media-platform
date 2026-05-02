@@ -96,7 +96,7 @@
 
       <div class="post-comments" id="comments-${post.id}" style="display: none;">
         <div class="comment-form">
-          <input type="text" placeholder="Write a comment..." id="comment-input-${post.id}" />
+          <textarea placeholder="Write a comment..." id="comment-input-${post.id}" rows="2"></textarea>
           <button class="btn btn-small btn-primary" data-post-id="${post.id}" data-action="add-comment">Comment</button>
         </div>
         <div class="comments-list" id="comments-list-${post.id}"></div>

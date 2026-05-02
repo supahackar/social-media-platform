@@ -369,20 +369,24 @@ main.register-page .btn {
   width: 100%;
   padding: 1rem;
   border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
   border-radius: 0.75rem;
   font-family: inherit;
   font-size: 1rem;
   background-color: var(--bg-main);
   color: var(--text);
   resize: vertical;
-  min-height: 100px;
+  min-height: 140px;
   max-height: 300px;
   margin-bottom: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .post-creator textarea:focus {
   outline: none;
   border-color: var(--primary);
+  border-left-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 99, 102, 241), 0.1);
 }
 
 .post-creator-actions {
@@ -541,19 +545,31 @@ main.register-page .btn {
   margin-bottom: 1rem;
 }
 
-.comment-form input {
+.comment-form textarea {
   flex: 1;
+  min-width: 0;
   padding: 0.75rem;
   border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
   border-radius: 0.75rem;
   font-family: inherit;
+  font-size: 0.95rem;
   background-color: var(--bg-main);
   color: var(--text);
+  resize: none;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  overflow-y: auto;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.comment-form input:focus {
+.comment-form textarea:focus {
   outline: none;
   border-color: var(--primary);
+  border-left-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 99, 102, 241), 0.1);
 }
 
 .comments-list {
@@ -584,6 +600,7 @@ main.register-page .btn {
 
 .comment-content {
   flex: 1;
+  min-width: 0;
   background-color: var(--bg-muted);
   padding: 0.75rem;
   border-radius: 0.75rem;
@@ -609,6 +626,9 @@ main.register-page .btn {
 .comment-text {
   color: var(--text);
   font-size: 0.875rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .comment-delete-btn {
@@ -758,6 +778,7 @@ main.register-page .btn {
 .user-avatar {
   width: 60px;
   height: 60px;
+  flex-shrink: 0;
   border-radius: 50%;
   background-color: var(--primary);
   display: flex;
@@ -822,25 +843,29 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: 68px;
+  height: 68px;
   padding: 0;
   border-radius: 50%;
-  background-color: transparent;
+  background-color: transparent !important;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--text);
+  transition: transform 0.15s ease;
 }
 
 .footer-nav-btn:hover {
-  background-color: var(--bg-muted);
-  color: var(--primary);
+  transform: scale(1.15);
+  background-color: transparent !important;
+  color: inherit;
+}
+
+.footer-nav-btn:active {
+  transform: scale(0.9);
 }
 
 .footer-nav-btn svg {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
 }
 
 .profile-btn {
@@ -989,7 +1014,7 @@ footer {
 /* Landing page — feature card hover */
 .feature-card {
   background-color: var(--bg-card);
-  padding: 1.5rem;
+  padding: 2.5rem;
   border-radius: 1rem;
   border: 1px solid var(--border);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
