@@ -1,5 +1,6 @@
 import prisma from "@/repos/prisma";
 
+// Includes follower/following/post counts — avoids extra queries on the users page
 export async function getUsers() {
   return await prisma.user.findMany({
     select: {
@@ -27,6 +28,7 @@ export async function getUserById(id) {
   });
 }
 
+// These two lookups return the password field — used only by the auth routes for verification
 export async function getUserByEmail(email) {
   return await prisma.user.findUnique({
     where: { email },

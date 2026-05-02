@@ -1,5 +1,6 @@
 import prisma from "@/repos/prisma";
 
+// Same toggle pattern as likes — unfollow if already following, follow if not.
 export async function toggleFollow(followerId, followingId) {
   const existing = await prisma.follow.findFirst({ where: { followerId, followingId } });
 
@@ -26,6 +27,7 @@ export async function getFollowing(userId) {
   });
 }
 
+// Returns a boolean — used to show a follow/unfollow indicator without extra queries
 export async function isFollowing(followerId, followingId) {
   const follow = await prisma.follow.findFirst({ where: { followerId, followingId } });
   return !!follow;

@@ -8,6 +8,8 @@ export async function GET(request) {
 
     const allUsers = await users.getUsers();
 
+    // If currentUserId is provided, enrich each user with an isFollowing flag
+    // so the client doesn't need a separate request per user
     if (currentUserId) {
       const following = await follows.getFollowing(currentUserId);
       const followingIds = new Set(following.map((f) => f.following.id));

@@ -4,8 +4,8 @@
       {/* Nav */}
       <nav style={{ backgroundColor: "var(--bg-card)", padding: "1rem 2rem", borderBottom: "1px solid var(--border)" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", alignItems: "center", position: "relative", minHeight: "3.5rem" }}>
-          <a href="/" style={{ fontFamily: '"Lobster Two", serif', fontSize: "2.5rem", fontWeight: "700", color: "var(--text)", display: "flex", alignItems: "center", gap: "0.5rem", letterSpacing: "0.06em", position: "absolute", left: "50%", transform: "translateX(-50%)", textDecoration: "none", whiteSpace: "nowrap" }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" style={{ color: "var(--text)", flexShrink: 0 }}>
+          <a href="/" className="nav-logo">
+            <svg className="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
               <path fill="currentColor" d="m13.775 22l-3.625-7.8L6 20V2l14 11h-7.1l3.6 7.725z" />
             </svg>
             ClickChat

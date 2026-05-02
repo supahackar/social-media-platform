@@ -10,6 +10,8 @@ export async function GET(request) {
       return Response.json({ error: "userId is required." }, { status: 400 });
     }
 
+    // ?type=user returns only the user's own posts (profile page)
+    // default returns feed posts (followed users + own, falls back to all if empty)
     if (type === "user") {
       return Response.json(await posts.getPostsByUser(userId));
     }

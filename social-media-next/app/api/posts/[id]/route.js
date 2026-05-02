@@ -1,5 +1,6 @@
 import * as posts from "@/repos/posts";
 
+// userId is passed in the body so the DB can verify ownership before deleting
 export async function DELETE(request, { params }) {
   const { id } = await params;
   try {

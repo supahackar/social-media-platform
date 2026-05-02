@@ -1,5 +1,7 @@
 import prisma from "@/repos/prisma";
 
+// All stats use database-level aggregation (groupBy, count, orderBy).
+// No data is pulled into the app for manual processing.
 // 1. Average number of posts per user
 export async function avgPostsPerUser() {
   const result = await prisma.post.groupBy({

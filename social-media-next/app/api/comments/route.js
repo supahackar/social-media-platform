@@ -23,6 +23,7 @@ export async function POST(request) {
 
 export async function DELETE(request) {
   try {
+    // commentId and userId come from the request body, not the URL
     const { commentId, userId } = await request.json();
     await comments.deleteComment(commentId, userId);
     return Response.json({ deleted: true });

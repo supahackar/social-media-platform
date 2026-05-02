@@ -1,5 +1,6 @@
 import * as likes from "@/repos/likes";
 
+// POST toggles a like on or off and returns { liked: true/false }
 export async function POST(request) {
   try {
     const { userId, postId } = await request.json();

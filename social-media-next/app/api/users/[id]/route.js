@@ -24,6 +24,7 @@ export async function PUT(request, { params }) {
       return Response.json({ error: "Username can only contain letters, numbers, and underscores." }, { status: 400 });
     }
 
+    // Allow the same username only if it belongs to the same user (edit without rename conflict)
     const existing = await users.getUserByUsername(username);
     if (existing && existing.id !== id) {
       return Response.json({ error: "Username already taken." }, { status: 409 });

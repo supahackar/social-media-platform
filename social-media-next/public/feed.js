@@ -44,9 +44,8 @@
     if (feedPosts.length === 0) {
       postsContainer.innerHTML = `
         <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
-          <p style="font-size: 1.125rem;">Your feed is empty!</p>
-          <p style="margin-top: 0.5rem;">Follow some users to see their posts here.</p>
-          <a href="users.html" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Discover Users</a>
+          <p style="font-size: 1.125rem;">No posts yet!</p>
+          <p style="margin-top: 0.5rem;">Be the first to share something.</p>
         </div>
       `;
       return;
@@ -81,7 +80,7 @@
             </div>
           </div>
         </div>
-        ${isOwnPost ? `<button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete"><svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ""}
+        ${isOwnPost ? `<button class="post-action-btn post-delete-btn" title="Delete post" data-post-id="${post.id}" data-action="delete"><svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ""}
       </div>
 
       <div class="post-content">${post.content}</div>
@@ -99,8 +98,12 @@
 
       <div class="post-comments" id="comments-${post.id}" style="display: none;">
         <div class="comment-form">
-          <textarea placeholder="Write a comment..." id="comment-input-${post.id}" rows="2"></textarea>
-          <button class="btn btn-small btn-primary" data-post-id="${post.id}" data-action="add-comment">Comment</button>
+          <textarea placeholder="Write a comment..." id="comment-input-${post.id}"></textarea>
+          <div class="comment-form-actions">
+            <button class="btn btn-primary" data-post-id="${post.id}" data-action="add-comment">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
         </div>
         <div class="comments-list" id="comments-list-${post.id}"></div>
       </div>
@@ -141,8 +144,29 @@
     likeBtn.title = `${newCount === 1 ? '1 Like' : newCount + ' Likes'}`;
   }
 
+  function showConfirm(title, message) {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.className = "confirm-modal-overlay";
+      overlay.innerHTML = `
+        <div class="confirm-modal-box">
+          <h3>${title}</h3>
+          <p>${message}</p>
+          <div class="confirm-modal-actions">
+            <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+            <button class="btn btn-primary confirm-delete-btn" id="confirmOk">Delete</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      overlay.querySelector("#confirmCancel").addEventListener("click", () => { overlay.remove(); resolve(false); });
+      overlay.querySelector("#confirmOk").addEventListener("click", () => { overlay.remove(); resolve(true); });
+      overlay.addEventListener("click", (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } });
+    });
+  }
+
   async function deletePost(postId) {
-    if (!confirm("Are you sure you want to delete this post?")) return;
+    if (!await showConfirm("Delete Post", "This action can't be undone.")) return;
     await fetch(`/api/posts/${postId}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -161,7 +185,7 @@
     const countSpan = postDiv.querySelector(".comment-count");
     const current = parseInt(countSpan.textContent);
     const newCount = Math.max(0, current - 1);
-    countSpan.textContent = `${newCount} ${newCount === 1 ? "Comment" : "Comments"}`;
+    countSpan.textContent = `${newCount}`;
   }
 
   async function toggleFollowUser(userId, btn) {
@@ -190,15 +214,16 @@
     const countSpan = postDiv.querySelector(".comment-count");
     const current = parseInt(countSpan.textContent);
     const newCount = current + 1;
-    countSpan.textContent = `${newCount} ${newCount === 1 ? "Comment" : "Comments"}`;
+    countSpan.textContent = `${newCount}`;
   }
 
   async function loadComments(postId, postDiv) {
     const res = await fetch(`/api/comments?postId=${postId}`);
     const comments = await res.json();
+    const sorted = comments.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const commentsList = postDiv.querySelector(`#comments-list-${postId}`);
     commentsList.innerHTML = "";
-    comments.forEach((comment) => {
+    sorted.forEach((comment) => {
       const commentDiv = document.createElement("div");
       commentDiv.classList.add("comment");
       const initials = comment.user.username.substring(0, 2).toUpperCase();
@@ -210,7 +235,7 @@
             <div class="comment-author">${comment.user.username}</div>
             <div class="comment-time">${getTimeAgo(comment.createdAt)}</div>
             ${!isOwnComment ? `<button class="btn btn-small btn-primary follow-comment-user-btn" data-user-id="${comment.user.id}">Follow</button>` : ""}
-            ${isOwnComment ? `<button class="comment-delete-btn" data-comment-id="${comment.id}" title="Delete comment" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:0 0.2rem;line-height:1;display:flex;align-items:center;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ""}
+            ${isOwnComment ? `<button class="comment-delete-btn" data-comment-id="${comment.id}" title="Delete comment" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:0 0.2rem;line-height:1;display:flex;align-items:center;"><svg class="comment-delete-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ""}
           </div>
           <div class="comment-text">${comment.content}</div>
         </div>

@@ -15,6 +15,7 @@ export async function POST(request) {
       return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
     }
 
+    // Password must be 8+ chars with uppercase, lowercase, number, and special character
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
@@ -27,6 +28,7 @@ export async function POST(request) {
       );
     }
 
+    // Check uniqueness for both email and username before creating
     const existing = await users.getUserByEmail(email);
     if (existing) {
       return Response.json({ error: "Email already in use." }, { status: 409 });

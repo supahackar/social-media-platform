@@ -8,25 +8,34 @@ export async function getFeedPosts(userId) {
   });
   const followingIds = following.map((f) => f.followingId);
 
-  return await prisma.post.findMany({
+  // Reused select shape — keeps both queries consistent
+  const postSelect = {
+    id: true,
+    content: true,
+    createdAt: true,
+    user: { select: { id: true, username: true } },
+    _count: { select: { likes: true, comments: true } },
+    likes: { where: { userId }, select: { id: true } },
+  };
+
+  const feedPosts = await prisma.post.findMany({
     where: { userId: { in: [userId, ...followingIds] } },
-    select: {
-      id: true,
-      content: true,
-      createdAt: true,
-      user: { select: { id: true, username: true } },
-      _count: { select: { likes: true, comments: true } },
-      likes: { where: { userId }, select: { id: true } },
-    },
+    select: postSelect,
     orderBy: { createdAt: "desc" },
   });
 
-  return postsData.map((post) => ({
-    ...post,
-    followedByMe: followingIds.includes(post.user.id),
-  }));
+  // Fall back to all posts for new users with empty feed
+  if (feedPosts.length === 0) {
+    return await prisma.post.findMany({
+      select: postSelect,
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
+  return feedPosts;
 }
 
+// All posts by a specific user, for the profile page
 export async function getPostsByUser(userId) {
   return await prisma.post.findMany({
     where: { userId },
@@ -55,6 +64,7 @@ export async function createPost(userId, content) {
   });
 }
 
+// userId is required in the where clause so users can only delete their own posts
 export async function deletePost(postId, userId) {
   await prisma.post.delete({ where: { id: postId, userId } });
 }
