@@ -2,28 +2,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
   const errorMessage = document.getElementById("errorMessage");
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    
-    // Clear previous errors
+
     errorMessage.textContent = "";
-    
-    // Get users from localStorage
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    
-    // Find user
-    const user = users.find(u => u.email === email && u.password === password);
-    
-    if (!user) {
+
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
       errorMessage.textContent = "Invalid email or password.";
       return;
     }
-    
+
+    const user = await res.json();
     localStorage.setItem("currentUser", JSON.stringify(user));
-    
     window.location.href = "feed.html";
   });
 });
