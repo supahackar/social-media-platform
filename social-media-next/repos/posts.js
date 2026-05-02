@@ -34,7 +34,9 @@ export async function getPostsByUser(userId) {
       id: true,
       content: true,
       createdAt: true,
+      user: { select: { id: true, username: true } },
       _count: { select: { likes: true, comments: true } },
+      likes: { where: { userId }, select: { id: true } },
     },
     orderBy: { createdAt: "desc" },
   });

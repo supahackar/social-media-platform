@@ -56,6 +56,10 @@
       alert("Username must be at least 3 characters long.");
       return;
     }
+    if (!/^[a-zA-Z0-9_]+$/.test(newUsername)) {
+      alert("Username can only contain letters, numbers, and underscores.");
+      return;
+    }
 
     const res = await fetch(`/api/users/${currentUser.id}`, {
       method: "PUT",
@@ -64,7 +68,8 @@
     });
 
     if (!res.ok) {
-      alert("Failed to update profile.");
+      const data = await res.json();
+      alert(data.error || "Failed to update profile.");
       return;
     }
 
@@ -97,14 +102,16 @@
     const postDiv = document.createElement("div");
     postDiv.classList.add("post");
 
+    const isLiked = post.likes && post.likes.length > 0;
     const likeCount = post._count.likes;
     const commentCount = post._count.comments;
     const timeAgo = getTimeAgo(post.createdAt);
+    const avatarInitials = currentUser.username.substring(0, 2).toUpperCase();
 
     postDiv.innerHTML = `
       <div class="post-header">
         <div class="post-author">
-          <div class="post-avatar">${currentUser.username.substring(0, 2).toUpperCase()}</div>
+          <div class="post-avatar">${avatarInitials}</div>
           <div class="post-author-info">
             <div class="post-author-header">
               <h3>${currentUser.username}</h3>
@@ -112,23 +119,61 @@
             </div>
           </div>
         </div>
-        <button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete"><svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>
+        <button class="post-action-btn post-delete-btn" data-post-id="${post.id}" data-action="delete"><svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>
       </div>
+
       <div class="post-content">${post.content}</div>
+
       <div class="post-actions">
-        <span class="post-action-btn">
+        <button class="post-action-btn ${isLiked ? "liked" : ""}" data-post-id="${post.id}" data-action="like" title="${likeCount === 1 ? "1 Like" : likeCount + " Likes"}">
           <svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="m12 19.654l-.758-.685q-2.448-2.236-4.05-3.828q-1.601-1.593-2.528-2.81q-.926-1.218-1.296-2.2T3 8.15q0-1.908 1.296-3.204T7.5 3.65q1.32 0 2.475.675T12 6.289Q12.87 5 14.025 4.325T16.5 3.65q1.908 0 3.204 1.296T21 8.15q0 .996-.368 1.98q-.369.986-1.296 2.202t-2.519 2.809q-1.592 1.592-4.06 3.828z"/></svg>
-          ${likeCount} ${likeCount === 1 ? "Like" : "Likes"}
-        </span>
-        <span class="post-action-btn">
+          <span class="like-count">${likeCount}</span>
+        </button>
+        <button class="post-action-btn" data-post-id="${post.id}" data-action="comment" title="${commentCount === 1 ? "1 Comment" : commentCount + " Comments"}">
           <svg class="post-action-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2m-2 12H6v-2h12zm0-3H6V9h12zm0-3H6V6h12z"/></svg>
-          ${commentCount} ${commentCount === 1 ? "Comment" : "Comments"}
-        </span>
+          <span class="comment-count">${commentCount}</span>
+        </button>
+      </div>
+
+      <div class="post-comments" id="comments-${post.id}" style="display: none;">
+        <div class="comment-form">
+          <textarea placeholder="Write a comment..." id="comment-input-${post.id}" rows="2"></textarea>
+          <button class="btn btn-small btn-primary" data-post-id="${post.id}" data-action="add-comment">Comment</button>
+        </div>
+        <div class="comments-list" id="comments-list-${post.id}"></div>
       </div>
     `;
 
+    postDiv.querySelector('[data-action="like"]').addEventListener("click", () => toggleLike(post.id, postDiv));
+    postDiv.querySelector('[data-action="comment"]').addEventListener("click", () => {
+      const section = postDiv.querySelector(`#comments-${post.id}`);
+      if (section.style.display === "none") {
+        section.style.display = "block";
+        loadComments(post.id, postDiv);
+      } else {
+        section.style.display = "none";
+      }
+    });
     postDiv.querySelector('[data-action="delete"]').addEventListener("click", () => deletePost(post.id));
+    postDiv.querySelector('[data-action="add-comment"]').addEventListener("click", () => addComment(post.id, postDiv));
+
     return postDiv;
+  }
+
+  async function toggleLike(postId, postDiv) {
+    const res = await fetch("/api/likes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, postId }),
+    });
+    const { liked } = await res.json();
+    const likeBtn = postDiv.querySelector('[data-action="like"]');
+    likeBtn.classList.toggle("liked", liked);
+    const countSpan = likeBtn.querySelector(".like-count");
+    const current = parseInt(countSpan.textContent);
+    const newCount = liked ? current + 1 : current - 1;
+    countSpan.textContent = `${newCount}`;
+    likeBtn.title = `${newCount === 1 ? "1 Like" : newCount + " Likes"}`;
   }
 
   async function deletePost(postId) {
@@ -138,7 +183,76 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: currentUser.id }),
     });
-    loadProfile();
+    renderUserPosts();
+  }
+
+  async function deleteComment(commentId, postId, postDiv) {
+    await fetch("/api/comments", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ commentId, userId: currentUser.id }),
+    });
+    loadComments(postId, postDiv);
+    const countSpan = postDiv.querySelector(".comment-count");
+    const current = parseInt(countSpan.textContent);
+    countSpan.textContent = `${Math.max(0, current - 1)}`;
+  }
+
+  async function toggleFollowUser(userId, btn) {
+    const res = await fetch("/api/follows", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ followerId: currentUser.id, followingId: userId }),
+    });
+    const { following } = await res.json();
+    btn.textContent = following ? "Unfollow" : "Follow";
+    btn.classList.toggle("btn-primary", !following);
+    btn.classList.toggle("btn-secondary", following);
+  }
+
+  async function addComment(postId, postDiv) {
+    const input = document.getElementById(`comment-input-${postId}`);
+    const content = input.value.trim();
+    if (!content) return;
+    await fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, postId, content }),
+    });
+    input.value = "";
+    loadComments(postId, postDiv);
+    const countSpan = postDiv.querySelector(".comment-count");
+    countSpan.textContent = `${parseInt(countSpan.textContent) + 1}`;
+  }
+
+  async function loadComments(postId, postDiv) {
+    const res = await fetch(`/api/comments?postId=${postId}`);
+    const comments = await res.json();
+    const commentsList = postDiv.querySelector(`#comments-list-${postId}`);
+    commentsList.innerHTML = "";
+    comments.forEach((comment) => {
+      const commentDiv = document.createElement("div");
+      commentDiv.classList.add("comment");
+      const initials = comment.user.username.substring(0, 2).toUpperCase();
+      const isOwnComment = comment.user.id === currentUser.id;
+      commentDiv.innerHTML = `
+        <div class="comment-avatar">${initials}</div>
+        <div class="comment-content">
+          <div class="comment-author-header">
+            <div class="comment-author">${comment.user.username}</div>
+            <div class="comment-time">${getTimeAgo(comment.createdAt)}</div>
+            ${!isOwnComment ? `<button class="btn btn-small btn-primary follow-comment-user-btn" data-user-id="${comment.user.id}">Follow</button>` : ""}
+            ${isOwnComment ? `<button class="comment-delete-btn" data-comment-id="${comment.id}" title="Delete comment" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:0 0.2rem;line-height:1;display:flex;align-items:center;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ""}
+          </div>
+          <div class="comment-text">${comment.content}</div>
+        </div>
+      `;
+      const delBtn = commentDiv.querySelector(".comment-delete-btn");
+      if (delBtn) delBtn.addEventListener("click", () => deleteComment(comment.id, postId, postDiv));
+      const followBtn = commentDiv.querySelector(".follow-comment-user-btn");
+      if (followBtn) followBtn.addEventListener("click", () => toggleFollowUser(comment.user.id, followBtn));
+      commentsList.appendChild(commentDiv);
+    });
   }
 
   function getTimeAgo(timestamp) {

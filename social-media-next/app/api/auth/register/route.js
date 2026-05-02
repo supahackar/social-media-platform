@@ -4,6 +4,13 @@ export async function POST(request) {
   try {
     const { username, email, password } = await request.json();
 
+    if (!username || username.length < 3) {
+      return Response.json({ error: "Username must be at least 3 characters long." }, { status: 400 });
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      return Response.json({ error: "Username can only contain letters, numbers, and underscores." }, { status: 400 });
+    }
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
     }
@@ -23,6 +30,11 @@ export async function POST(request) {
     const existing = await users.getUserByEmail(email);
     if (existing) {
       return Response.json({ error: "Email already in use." }, { status: 409 });
+    }
+
+    const existingUsername = await users.getUserByUsername(username);
+    if (existingUsername) {
+      return Response.json({ error: "Username already taken." }, { status: 409 });
     }
 
     const user = await users.createUser({ username, email, password });
