@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: Date.now().toString(),
       username: username,
       email: email,
-      password: password, // In a real app, this would be hashed!
+      password: password, 
       bio: "",
       followers: [],
       following: [],
