@@ -107,20 +107,23 @@ nav {
 
 .nav-logo {
   font-family: "Lobster Two", serif;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  letter-spacing: 0.06em;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .nav-logo-icon {
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   color: var(--text);
 }
 
@@ -159,6 +162,17 @@ nav {
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 500;
+  display: inline-block;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
 }
 
 .btn-primary {
@@ -169,6 +183,8 @@ nav {
 .btn-primary:hover {
   background-color: var(--primary-strong);
   color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
 .btn-secondary {
@@ -178,6 +194,8 @@ nav {
 
 .btn-secondary:hover {
   background-color: var(--primary-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
 .btn-small {
@@ -901,5 +919,56 @@ footer {
   
   .profile-actions {
     justify-content: center;
+  }
+}
+
+/* Landing page — hero title accent word */
+.hero-accent {
+  color: #4a2c0a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-accent {
+    color: #ffedd8;
+  }
+}
+
+/* Landing page — login outline button */
+.btn-login {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 0.875rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.btn-login:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
+/* Landing page — feature cards grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
   }
 }
