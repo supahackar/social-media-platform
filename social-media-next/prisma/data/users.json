@@ -1,0 +1,22 @@
+[
+  { "username": "alice_w",    "email": "alice@example.com",   "password": "Alice@123",  "bio": "Coffee lover and avid reader." },
+  { "username": "bob_k",      "email": "bob@example.com",     "password": "Bob@1234",   "bio": "Tech enthusiast and gamer." },
+  { "username": "carol_m",    "email": "carol@example.com",   "password": "Carol@123",  "bio": "Photographer based in Paris." },
+  { "username": "david_r",    "email": "david@example.com",   "password": "David@123",  "bio": "Full-stack developer and open source contributor." },
+  { "username": "emma_t",     "email": "emma@example.com",    "password": "Emma@1234",  "bio": "Fitness coach and nutrition enthusiast." },
+  { "username": "frank_b",    "email": "frank@example.com",   "password": "Frank@123",  "bio": "Musician and producer." },
+  { "username": "grace_l",    "email": "grace@example.com",   "password": "Grace@123",  "bio": "Travel blogger exploring the world." },
+  { "username": "henry_p",    "email": "henry@example.com",   "password": "Henry@123",  "bio": "Entrepreneur and startup founder." },
+  { "username": "isabel_v",   "email": "isabel@example.com",  "password": "Isabel@12",  "bio": "Graphic designer and illustrator." },
+  { "username": "jack_s",     "email": "jack@example.com",    "password": "Jack@1234",  "bio": "Sports journalist and football fan." },
+  { "username": "karen_n",    "email": "karen@example.com",   "password": "Karen@123",  "bio": "Teacher and lifelong learner." },
+  { "username": "leo_d",      "email": "leo@example.com",     "password": "Leo@12345",  "bio": "Data scientist and machine learning enthusiast." },
+  { "username": "mia_f",      "email": "mia@example.com",     "password": "Mia@12345",  "bio": "Chef sharing recipes from around the world." },
+  { "username": "noah_c",     "email": "noah@example.com",    "password": "Noah@1234",  "bio": "Architect with a love for minimalism." },
+  { "username": "olivia_h",   "email": "olivia@example.com",  "password": "Olivia@12",  "bio": "Writer working on her first novel." },
+  { "username": "peter_j",    "email": "peter@example.com",   "password": "Peter@123",  "bio": "Marine biologist and ocean advocate." },
+  { "username": "quinn_g",    "email": "quinn@example.com",   "password": "Quinn@123",  "bio": "Artist and creative director." },
+  { "username": "rachel_o",   "email": "rachel@example.com",  "password": "Rachel@12",  "bio": "Nurse and mental health advocate." },
+  { "username": "sam_u",      "email": "sam@example.com",     "password": "Sam@12345",  "bio": "Backpacker and adventure seeker." },
+  { "username": "tina_y",     "email": "tina@example.com",    "password": "Tina@1234",  "bio": "Economist and policy researcher." }
+]

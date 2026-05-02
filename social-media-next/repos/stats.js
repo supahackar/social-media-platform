@@ -93,13 +93,16 @@ export async function mostCommentedPosts() {
     orderBy: { _count: { id: "desc" } },
     take: 5,
   });
-  return await Promise.all(
-    result.map(async (r) => {
-      const post = await prisma.post.findUnique({
-        where: { id: r.postId },
-        select: { id: true, content: true, user: { select: { username: true } } },
-      });
-      return { ...post, commentCount: r._count.id };
-    })
-  );
+  if (result.length === 0) return [];
+
+  // Fetch all 5 posts in a single query instead of one per post
+  const postIds = result.map((r) => r.postId);
+  const posts = await prisma.post.findMany({
+    where: { id: { in: postIds } },
+    select: { id: true, content: true, user: { select: { username: true } } },
+  });
+
+  // Re-attach the comment count and preserve the original ranking order
+  const postMap = new Map(posts.map((p) => [p.id, p]));
+  return result.map((r) => ({ ...postMap.get(r.postId), commentCount: r._count.id }));
 }

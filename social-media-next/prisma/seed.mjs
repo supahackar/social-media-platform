@@ -1,7 +1,7 @@
 import "dotenv/config";
+import { readFileSync } from "fs";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { PrismaClient } from "./client/index.js";
-import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient({
   adapter: new PrismaLibSql({
@@ -9,91 +9,84 @@ const prisma = new PrismaClient({
   }),
 });
 
+// Load seed data from JSON files
+const usersData  = JSON.parse(readFileSync(new URL("./data/users.json",   import.meta.url)));
+const postsData  = JSON.parse(readFileSync(new URL("./data/posts.json",   import.meta.url)));
+const followsData = JSON.parse(readFileSync(new URL("./data/follows.json", import.meta.url)));
+
 async function main() {
-  // Clear existing data
+  // Clear existing data in dependency order
   await prisma.follow.deleteMany();
   await prisma.like.deleteMany();
   await prisma.comment.deleteMany();
   await prisma.post.deleteMany();
   await prisma.user.deleteMany();
 
-  // Create 20 users
+  // Create users from users.json
   const users = [];
-  for (let i = 0; i < 20; i++) {
-    const user = await prisma.user.create({
-      data: {
-        username: faker.internet.username().toLowerCase().replace(/[^a-z0-9_]/g, "_").slice(0, 20),
-        email: faker.internet.email().toLowerCase(),
-        password: faker.internet.password({ length: 10 }),
-        bio: faker.lorem.sentence(),
-        createdAt: faker.date.past({ years: 1 }),
-      },
-    });
+  for (const u of usersData) {
+    const user = await prisma.user.create({ data: u });
     users.push(user);
   }
 
-  // Create 3–6 posts per user
+  // Create posts from posts.json (userIndex maps to the users array above)
   const posts = [];
-  for (const user of users) {
-    const count = faker.number.int({ min: 3, max: 6 });
-    for (let i = 0; i < count; i++) {
-      const post = await prisma.post.create({
-        data: {
-          content: faker.lorem.sentences({ min: 1, max: 3 }),
-          userId: user.id,
-          createdAt: faker.date.past({ years: 1 }),
-        },
-      });
-      posts.push(post);
+  for (const p of postsData) {
+    const post = await prisma.post.create({
+      data: { content: p.content, userId: users[p.userIndex].id },
+    });
+    posts.push(post);
+  }
+
+  // Create follows from follows.json
+  for (const f of followsData) {
+    await prisma.follow.create({
+      data: { followerId: users[f.followerIndex].id, followingId: users[f.followingIndex].id },
+    });
+  }
+
+  // Create likes — each user likes every 3rd post (varied, no duplicates)
+  for (let i = 0; i < users.length; i++) {
+    for (let j = (i * 3) % posts.length, count = 0; count < 8; j = (j + 1) % posts.length, count++) {
+      if (posts[j].userId !== users[i].id) {
+        await prisma.like.create({ data: { userId: users[i].id, postId: posts[j].id } });
+      }
     }
   }
 
-  // Create likes — each user likes 5–15 random posts (no duplicates)
-  for (const user of users) {
-    const shuffled = faker.helpers.shuffle([...posts]);
-    const toLike = shuffled.slice(0, faker.number.int({ min: 5, max: 15 }));
-    for (const post of toLike) {
-      await prisma.like.create({
-        data: { userId: user.id, postId: post.id },
-      });
-    }
-  }
-
-  // Create comments — each user comments on 3–8 random posts
-  for (const user of users) {
-    const shuffled = faker.helpers.shuffle([...posts]);
-    const toComment = shuffled.slice(0, faker.number.int({ min: 3, max: 8 }));
-    for (const post of toComment) {
+  // Create comments — each user comments on a set of posts
+  const commentTexts = [
+    "Totally agree with this!",
+    "This made my day.",
+    "So true, couldn't have said it better.",
+    "Love this perspective.",
+    "Really insightful, thanks for sharing.",
+    "This resonates with me a lot.",
+    "Great point!",
+    "Following this topic closely.",
+    "More people need to see this.",
+    "Well said.",
+  ];
+  for (let i = 0; i < users.length; i++) {
+    for (let j = 0; j < 5; j++) {
+      const postIndex = (i * 7 + j * 3) % posts.length;
       await prisma.comment.create({
         data: {
-          content: faker.lorem.sentence(),
-          userId: user.id,
-          postId: post.id,
-          createdAt: faker.date.past({ years: 1 }),
+          content: commentTexts[(i + j) % commentTexts.length],
+          userId: users[i].id,
+          postId: posts[postIndex].id,
         },
       });
     }
   }
 
-  // Create follows — each user follows 3–8 others (no self-follows, no duplicates)
-  for (const user of users) {
-    const others = users.filter((u) => u.id !== user.id);
-    const shuffled = faker.helpers.shuffle(others);
-    const toFollow = shuffled.slice(0, faker.number.int({ min: 3, max: 8 }));
-    for (const target of toFollow) {
-      await prisma.follow.create({
-        data: { followerId: user.id, followingId: target.id },
-      });
-    }
-  }
-
-  const userCount = await prisma.user.count();
-  const postCount = await prisma.post.count();
-  const likeCount = await prisma.like.count();
+  const userCount   = await prisma.user.count();
+  const postCount   = await prisma.post.count();
+  const likeCount   = await prisma.like.count();
   const commentCount = await prisma.comment.count();
   const followCount = await prisma.follow.count();
 
-  console.log(`Seeded:`);
+  console.log("Seeded:");
   console.log(`  ${userCount} users`);
   console.log(`  ${postCount} posts`);
   console.log(`  ${likeCount} likes`);
