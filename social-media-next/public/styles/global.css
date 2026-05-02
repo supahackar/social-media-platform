@@ -933,6 +933,33 @@ footer {
   }
 }
 
+/* Landing page — get started button */
+.btn-get-started {
+  background-color: var(--primary);
+  color: #fff;
+  padding: 0.875rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.btn-get-started:hover {
+  background-color: var(--primary-strong);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.btn-get-started:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
 /* Landing page — login outline button */
 .btn-login {
   background-color: transparent;
@@ -944,19 +971,33 @@ footer {
   font-size: 1rem;
   text-decoration: none;
   transition: all 0.2s ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
 }
 
 .btn-login:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  background-color: var(--primary);
-  color: #fff;
 }
 
 .btn-login:active {
   transform: translateY(0) scale(0.97);
   box-shadow: none;
+}
+
+/* Landing page — feature card hover */
+.feature-card {
+  background-color: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 /* Landing page — feature cards grid */

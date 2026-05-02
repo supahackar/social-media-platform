@@ -15,17 +15,15 @@
 
       {/* Hero */}
       <main style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", padding: "2rem 1.5rem 1.25rem", maxWidth: "900px", margin: "0 auto", width: "100%" }}>
-        <h1 style={{ fontSize: "2.75rem", fontWeight: "700", color: "var(--primary)", marginBottom: "0.75rem", textAlign: "center" }}>
+        <h1 style={{ fontSize: "2.5rem", fontWeight: "700", color: "var(--primary)", marginBottom: "0.75rem", textAlign: "center" }}>
           Welcome to <span className="hero-accent" style={{ fontFamily: '"Lobster Two", serif', letterSpacing: "0.04em" }}>ClickChat</span>
         </h1>
         <p style={{ fontSize: "1.2rem", color: "var(--text-muted)", marginBottom: "0.75rem", textAlign: "center", maxWidth: "550px" }}>
           Connect with friends, share your thoughts, and discover new people.
         </p>
 
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center", marginBottom: "1.5rem" }}>
-          <a href="/register.html" style={{ backgroundColor: "var(--primary)", color: "#fff", padding: "0.875rem 2rem", borderRadius: "0.5rem", fontWeight: "600", fontSize: "1rem", textDecoration: "none" }}>
-            Get Started
-          </a>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center", marginBottom: "1.5rem", alignItems: "center" }}>
+          <a href="/register.html" className="btn-get-started">Get Started</a>
           <a href="/login.html" className="btn-login">Login</a>
         </div>
 
@@ -37,7 +35,7 @@
             { title: "Stay Updated", desc: "See posts from people you follow in your personalized feed." },
             { title: "Join a Vast Community", desc: "Connect with others and be part of a thriving network." },
           ].map((card) => (
-            <div key={card.title} style={{ backgroundColor: "var(--bg-card)", padding: "1.5rem", borderRadius: "1rem", border: "1px solid var(--border)" }}>
+            <div key={card.title} className="feature-card">
               <h3 style={{ fontSize: "1.1rem", fontWeight: "600", color: "var(--text)", marginBottom: "0.5rem" }}>{card.title}</h3>
               <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: "1.6" }}>{card.desc}</p>
             </div>
