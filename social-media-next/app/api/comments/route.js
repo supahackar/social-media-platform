@@ -20,3 +20,13 @@ export async function POST(request) {
     return Response.json({ error: "Server error." }, { status: 500 });
   }
 }
+
+export async function DELETE(request) {
+  try {
+    const { commentId, userId } = await request.json();
+    await comments.deleteComment(commentId, userId);
+    return Response.json({ deleted: true });
+  } catch (e) {
+    return Response.json({ error: "Server error." }, { status: 500 });
+  }
+}

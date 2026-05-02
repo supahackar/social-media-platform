@@ -94,7 +94,7 @@ export default async function StatsPage() {
       <nav>
         <div className="nav-container">
           <a href="/feed.html" className="nav-logo">
-            <svg className="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21.92 6.62a1 1 0 0 0-.54-.54A1 1 0 0 0 21 6h-5a1 1 0 0 0 0 2h2.59L13 13.59l-3.29-3.3a1 1 0 0 0-1.42 0l-6 6a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 12.41l3.29 3.3a1 1 0 0 0 1.42 0L20 9.41V12a1 1 0 0 0 2 0V7a1 1 0 0 0-.08-.38"/></svg>
+            <svg className="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"><path fill="currentColor" d="M21.92 6.62a1 1 0 0 0-.54-.54A1 1 0 0 0 21 6h-5a1 1 0 0 0 0 2h2.59L13 13.59l-3.29-3.3a1 1 0 0 0-1.42 0l-6 6a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 12.41l3.29 3.3a1 1 0 0 0 1.42 0L20 9.41V12a1 1 0 0 0 2 0V7a1 1 0 0 0-.08-.38"/></svg>
             <span className="nav-logo-text">ClickChat</span>
           </a>
           <button className="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
@@ -111,8 +111,14 @@ export default async function StatsPage() {
           .stat-card:hover .stat-icon:hover { transform: scale(1.3); }
           .stat-avatar { transition: transform 0.18s ease; }
           .stat-card:hover .stat-avatar:hover { transform: scale(1.15); }
+          .stat-number { display: inline-block; transition: transform 0.18s ease; }
+          .stat-card:hover .stat-number:hover { transform: scale(1.2); cursor: default; }
+          .stat-username { display: inline-block; transition: transform 0.18s ease; }
+          .stat-card:hover .stat-username:hover { transform: scale(1.1); cursor: default; }
           .commented-row { transition: border-color 0.18s ease, background-color 0.18s ease; }
           .commented-row:hover { border-color: var(--border-strong) !important; background-color: var(--bg-muted) !important; }
+          .commented-text { display: block; transition: transform 0.18s ease; transform-origin: left center; }
+          .commented-row:hover .commented-text:hover { transform: scale(1.03); }
         `}</style>
 
         {/* Overview */}
@@ -128,7 +134,7 @@ export default async function StatsPage() {
             ].map(({ label, value, Icon, color, size }) => (
               <div key={label} className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.75rem 1rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.6rem" }}>
                 <div className="stat-icon" style={{ color }}><Icon size={size} /></div>
-                <div style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{value}</div>
+                <div className="stat-number" style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{value}</div>
                 <div style={{ color: "var(--text-muted)", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</div>
               </div>
             ))}
@@ -141,12 +147,12 @@ export default async function StatsPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
             <div className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "2.5rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
               <div className="stat-icon" style={{ color: "#5A8DEE" }}><IconPosts size={36} /></div>
-              <div style={{ fontSize: "3rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{avgPosts}</div>
+              <div className="stat-number" style={{ fontSize: "3rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{avgPosts}</div>
               <div style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Avg. Posts per User</div>
             </div>
             <div className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "2.5rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
               <div className="stat-icon" style={{ color: "#A78BFA" }}><IconFollows size={36} /></div>
-              <div style={{ fontSize: "3rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{avgFollowers}</div>
+              <div className="stat-number" style={{ fontSize: "3rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{avgFollowers}</div>
               <div style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Avg. Followers per User</div>
             </div>
           </div>
@@ -164,7 +170,7 @@ export default async function StatsPage() {
                   {activeUser.username[0].toUpperCase()}
                 </div>
                 <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Most Active User</div>
-                <div style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text)" }}>@{activeUser.username}</div>
+                <div className="stat-username" style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text)" }}>@{activeUser.username}</div>
                 <div style={{ color: "#C9A227", fontSize: "0.95rem", fontWeight: "500" }}>{activeUser.postCount} posts</div>
               </div>
             )}
@@ -176,7 +182,7 @@ export default async function StatsPage() {
                   {followedUser.username[0].toUpperCase()}
                 </div>
                 <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Most Followed User</div>
-                <div style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text)" }}>@{followedUser.username}</div>
+                <div className="stat-username" style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text)" }}>@{followedUser.username}</div>
                 <div style={{ color: "#E6E8EA", fontSize: "0.95rem", fontWeight: "500" }}>{followedUser.followerCount} followers</div>
               </div>
             )}
@@ -188,7 +194,7 @@ export default async function StatsPage() {
                   {likedPost.user.username[0].toUpperCase()}
                 </div>
                 <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Most Liked Post</div>
-                <div style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text)" }}>@{likedPost.user.username}</div>
+                <div className="stat-username" style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text)" }}>@{likedPost.user.username}</div>
                 <div style={{ color: "#E85A5A", fontSize: "0.95rem", fontWeight: "500" }}>{likedPost.likeCount} likes</div>
                 <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.5rem", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflowWrap: "break-word", textAlign: "center" }}>
                   {likedPost.content}
@@ -217,7 +223,7 @@ export default async function StatsPage() {
                         · {post.commentCount} {post.commentCount === 1 ? "comment" : "comments"}
                       </span>
                     </p>
-                    <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflowWrap: "break-word" }}>
+                    <p className="commented-text" style={{ color: "var(--text-muted)", fontSize: "0.9rem", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflowWrap: "break-word" }}>
                       {post.content}
                     </p>
                   </div>

@@ -63,6 +63,7 @@
 
     const isLiked = post.likes.length > 0;
     const isOwnPost = post.user.id === currentUser.id;
+    const isFollowed = post.followedByMe || false;
     const likeCount = post._count.likes;
     const commentCount = post._count.comments;
     const timeAgo = getTimeAgo(post.createdAt);
@@ -76,6 +77,7 @@
             <div class="post-author-header">
               <h3>${post.user.username}</h3>
               <p class="post-time">${timeAgo}</p>
+              ${!isOwnPost ? `<button class="btn btn-small ${isFollowed ? "btn-secondary" : "btn-primary"} follow-user-btn" data-user-id="${post.user.id}" style="margin-left:auto;">${isFollowed ? "Unfollow" : "Follow"}</button>` : ""}
             </div>
           </div>
         </div>
@@ -117,6 +119,8 @@
     const deleteBtn = postDiv.querySelector('[data-action="delete"]');
     if (deleteBtn) deleteBtn.addEventListener("click", () => deletePost(post.id));
     postDiv.querySelector('[data-action="add-comment"]').addEventListener("click", () => addComment(post.id, postDiv));
+    const followBtn = postDiv.querySelector('.follow-user-btn');
+    if (followBtn) followBtn.addEventListener("click", () => toggleFollowUser(post.user.id, followBtn));
 
     return postDiv;
   }
@@ -146,6 +150,31 @@
     renderPosts();
   }
 
+  async function deleteComment(commentId, postId, postDiv) {
+    await fetch("/api/comments", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ commentId, userId: currentUser.id }),
+    });
+    loadComments(postId, postDiv);
+    const countSpan = postDiv.querySelector(".comment-count");
+    const current = parseInt(countSpan.textContent);
+    const newCount = Math.max(0, current - 1);
+    countSpan.textContent = `${newCount} ${newCount === 1 ? "Comment" : "Comments"}`;
+  }
+
+  async function toggleFollowUser(userId, btn) {
+    const res = await fetch("/api/follows", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ followerId: currentUser.id, followingId: userId }),
+    });
+    const { following } = await res.json();
+    btn.textContent = following ? "Unfollow" : "Follow";
+    btn.classList.toggle("btn-primary", !following);
+    btn.classList.toggle("btn-secondary", following);
+  }
+
   async function addComment(postId, postDiv) {
     const input = document.getElementById(`comment-input-${postId}`);
     const content = input.value.trim();
@@ -172,16 +201,23 @@
       const commentDiv = document.createElement("div");
       commentDiv.classList.add("comment");
       const initials = comment.user.username.substring(0, 2).toUpperCase();
+      const isOwnComment = comment.user.id === currentUser.id;
       commentDiv.innerHTML = `
         <div class="comment-avatar">${initials}</div>
         <div class="comment-content">
           <div class="comment-author-header">
             <div class="comment-author">${comment.user.username}</div>
             <div class="comment-time">${getTimeAgo(comment.createdAt)}</div>
+            ${isOwnComment ? `<button class="comment-delete-btn" data-comment-id="${comment.id}" title="Delete comment" style="margin-left:auto;background:none;border:none;cursor:pointer;color:var(--text-muted);padding:0 0.2rem;line-height:1;display:flex;align-items:center;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="currentColor" d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"/></svg></button>` : ""}
+            ${!isOwnComment ? `<button class="btn btn-small btn-primary follow-comment-user-btn" data-user-id="${comment.user.id}" style="margin-left:auto;">Follow</button>` : ""}
           </div>
           <div class="comment-text">${comment.content}</div>
         </div>
       `;
+      const delBtn = commentDiv.querySelector('.comment-delete-btn');
+      if (delBtn) delBtn.addEventListener('click', () => deleteComment(comment.id, postId, postDiv));
+      const followBtn = commentDiv.querySelector('.follow-comment-user-btn');
+      if (followBtn) followBtn.addEventListener('click', () => toggleFollowUser(comment.user.id, followBtn));
       commentsList.appendChild(commentDiv);
     });
   }

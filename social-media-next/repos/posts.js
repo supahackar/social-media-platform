@@ -20,6 +20,11 @@ export async function getFeedPosts(userId) {
     },
     orderBy: { createdAt: "desc" },
   });
+
+  return postsData.map((post) => ({
+    ...post,
+    followedByMe: followingIds.includes(post.user.id),
+  }));
 }
 
 export async function getPostsByUser(userId) {
