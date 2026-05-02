@@ -37,6 +37,25 @@ Stats page lives at `http://localhost:3000/stats`
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Screenshots needed for report
+
+Take these screenshots as you go and add them to the Word report:
+
+1. Terminal — seed ran successfully (users/posts/likes/comments created)
+2. Terminal — dev server running (`npm run dev` showing `Ready on http://localhost:3000`)
+3. Browser — `http://localhost:3000/feed.html` loading (app is served)
+4. Register page — form submitted successfully
+5. Login page — logged in with a seeded user
+6. Feed page — posts loaded from the database
+7. Feed page — new post created and appearing in feed
+8. Feed page — liking a post (like count updates)
+9. Feed page — commenting on a post
+10. Profile page — user info, post count, followers/following count
+11. Users page — list of all users
+12. Users page — following a user (button changes state)
+13. Stats page (`/stats`) — all 6+ statistics with real data
+14. (Optional) Browser DevTools Network tab — successful `fetch` call to an API
+
 ## Getting Started
 
 First, run the development server:
