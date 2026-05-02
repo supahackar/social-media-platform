@@ -35,6 +35,7 @@
   });
 
   async function renderPosts() {
+    postsContainer.innerHTML = `<div class="loading-wrap"><div class="loading-spinner"></div><span>Loading posts…</span></div>`;
     const res = await fetch(`/api/posts?userId=${currentUser.id}`);
     const feedPosts = await res.json();
 

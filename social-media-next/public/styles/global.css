@@ -125,6 +125,63 @@ nav {
   width: 2.25rem;
   height: 2.25rem;
   color: var(--text);
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.nav-logo-text {
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+
+.nav-logo:hover .nav-logo-icon {
+  transform: scale(1.25);
+}
+
+.nav-logo:hover .nav-logo-text {
+  transform: scale(1.06);
+}
+
+/* ── Loading / Skeleton ───────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.loading-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+
+.loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--bg-muted) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 10px;
 }
 
 .nav-links {

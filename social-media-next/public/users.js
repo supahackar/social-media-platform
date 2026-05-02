@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   async function renderUsers() {
+    usersContainer.innerHTML = `<div class="loading-wrap" style="grid-column:1/-1"><div class="loading-spinner"></div><span>Loading users…</span></div>`;
     const res = await fetch(`/api/users?currentUserId=${currentUser.id}`);
     const allUsers = await res.json();
     const otherUsers = allUsers.filter((u) => u.id !== currentUser.id);

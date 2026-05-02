@@ -94,8 +94,8 @@ export default async function StatsPage() {
       <nav>
         <div className="nav-container">
           <a href="/feed.html" className="nav-logo">
-            <svg className="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.775 22l-3.625-7.8L6 20V2l14 11h-7.1l3.6 7.725z"/></svg>
-            ClickChat
+            <svg className="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21.92 6.62a1 1 0 0 0-.54-.54A1 1 0 0 0 21 6h-5a1 1 0 0 0 0 2h2.59L13 13.59l-3.29-3.3a1 1 0 0 0-1.42 0l-6 6a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 12.41l3.29 3.3a1 1 0 0 0 1.42 0L20 9.41V12a1 1 0 0 0 2 0V7a1 1 0 0 0-.08-.38"/></svg>
+            <span className="nav-logo-text">ClickChat</span>
           </a>
           <button className="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
         </div>
@@ -107,22 +107,17 @@ export default async function StatsPage() {
         <style>{`
           .stat-card { transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
           .stat-card:hover { transform: translateY(-4px); border-color: var(--border-strong) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+          .stat-icon { display: inline-flex; transition: transform 0.18s ease; }
+          .stat-card:hover .stat-icon:hover { transform: scale(1.3); }
+          .stat-avatar { transition: transform 0.18s ease; }
+          .stat-card:hover .stat-avatar:hover { transform: scale(1.15); }
           .commented-row { transition: border-color 0.18s ease, background-color 0.18s ease; }
           .commented-row:hover { border-color: var(--border-strong) !important; background-color: var(--bg-muted) !important; }
         `}</style>
 
-        {/* Page Title */}
-        <div style={{ marginBottom: "3rem", textAlign: "center" }}>
-          <h1 style={{ fontSize: "2.25rem", fontWeight: "bold", color: "var(--text)", marginBottom: "0.5rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.6rem" }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" style={{ color: "var(--text)", flexShrink: 0 }}><path fill="currentColor" d="M21.92 6.62a1 1 0 0 0-.54-.54A1 1 0 0 0 21 6h-5a1 1 0 0 0 0 2h2.59L13 13.59l-3.29-3.3a1 1 0 0 0-1.42 0l-6 6a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 12.41l3.29 3.3a1 1 0 0 0 1.42 0L20 9.41V12a1 1 0 0 0 2 0V7a1 1 0 0 0-.08-.38"/></svg>
-            Platform Statistics
-          </h1>
-          <p style={{ color: "var(--text-muted)", fontSize: "1rem" }}>Live data from the ClickChat database</p>
-        </div>
-
         {/* Overview */}
         <section style={{ marginBottom: "3.5rem", textAlign: "center" }}>
-          <h2 style={{ fontSize: "2.25rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Platform Overview</h2>
+          <h2 style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Platform Overview</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1rem" }}>
             {[
               { label: "Users",    value: overview.users,    Icon: IconUsers,   color: "#4CAF7A", size: 30 },
@@ -132,7 +127,7 @@ export default async function StatsPage() {
               { label: "Follows",  value: overview.follows,  Icon: IconFollows, color: "#A78BFA", size: 30 },
             ].map(({ label, value, Icon, color, size }) => (
               <div key={label} className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.75rem 1rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.6rem" }}>
-                <div style={{ color }}><Icon size={size} /></div>
+                <div className="stat-icon" style={{ color }}><Icon size={size} /></div>
                 <div style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{value}</div>
                 <div style={{ color: "var(--text-muted)", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</div>
               </div>
@@ -142,15 +137,15 @@ export default async function StatsPage() {
 
         {/* Averages */}
         <section style={{ marginBottom: "3.5rem", textAlign: "center" }}>
-          <h2 style={{ fontSize: "2.25rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Averages</h2>
+          <h2 style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Averages</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
             <div className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "2.5rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
-              <div style={{ color: "#5A8DEE" }}><IconPosts size={36} /></div>
+              <div className="stat-icon" style={{ color: "#5A8DEE" }}><IconPosts size={36} /></div>
               <div style={{ fontSize: "3rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{avgPosts}</div>
               <div style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Avg. Posts per User</div>
             </div>
             <div className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "2.5rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
-              <div style={{ color: "#A78BFA" }}><IconFollows size={36} /></div>
+              <div className="stat-icon" style={{ color: "#A78BFA" }}><IconFollows size={36} /></div>
               <div style={{ fontSize: "3rem", fontWeight: "bold", color: "var(--text)", lineHeight: 1 }}>{avgFollowers}</div>
               <div style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Avg. Followers per User</div>
             </div>
@@ -159,13 +154,13 @@ export default async function StatsPage() {
 
         {/* Top Performers */}
         <section style={{ marginBottom: "3.5rem", textAlign: "center" }}>
-          <h2 style={{ fontSize: "2.25rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Top Performers</h2>
+          <h2 style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Top Performers</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
             {activeUser && (
               <div className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "2rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-                <div style={{ color: "#C9A227" }}><IconMostActive size={44} /></div>
+                <div className="stat-icon" style={{ color: "#C9A227" }}><IconMostActive size={44} /></div>
                 {/* Avatar */}
-                <div style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "#C9A22733", border: "2px solid #C9A227", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: "700", color: "#C9A227", marginTop: "0.25rem", flexShrink: 0 }}>
+                <div className="stat-avatar" style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "#C9A22733", border: "2px solid #C9A227", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: "700", color: "#C9A227", marginTop: "0.25rem", flexShrink: 0 }}>
                   {activeUser.username[0].toUpperCase()}
                 </div>
                 <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Most Active User</div>
@@ -175,9 +170,9 @@ export default async function StatsPage() {
             )}
             {followedUser && (
               <div className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "2rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-                <div style={{ color: "#E6E8EA" }}><IconMostFollowed size={44} /></div>
+                <div className="stat-icon" style={{ color: "#E6E8EA" }}><IconMostFollowed size={44} /></div>
                 {/* Avatar */}
-                <div style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "#E6E8EA1A", border: "2px solid #E6E8EA", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: "700", color: "#E6E8EA", marginTop: "0.25rem", flexShrink: 0 }}>
+                <div className="stat-avatar" style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "#E6E8EA1A", border: "2px solid #E6E8EA", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: "700", color: "#E6E8EA", marginTop: "0.25rem", flexShrink: 0 }}>
                   {followedUser.username[0].toUpperCase()}
                 </div>
                 <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Most Followed User</div>
@@ -187,9 +182,9 @@ export default async function StatsPage() {
             )}
             {likedPost && (
               <div className="stat-card" style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "14px", padding: "2rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-                <div style={{ color: "#E85A5A" }}><IconHeart size={52} /></div>
+                <div className="stat-icon" style={{ color: "#E85A5A" }}><IconHeart size={52} /></div>
                 {/* Avatar */}
-                <div style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "#E85A5A22", border: "2px solid #E85A5A", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: "700", color: "#E85A5A", marginTop: "0.25rem", flexShrink: 0 }}>
+                <div className="stat-avatar" style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "#E85A5A22", border: "2px solid #E85A5A", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: "700", color: "#E85A5A", marginTop: "0.25rem", flexShrink: 0 }}>
                   {likedPost.user.username[0].toUpperCase()}
                 </div>
                 <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Most Liked Post</div>
@@ -205,7 +200,7 @@ export default async function StatsPage() {
 
         {/* Top 5 Most Commented Posts */}
         <section style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "2.25rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Top 5 Most Commented Posts</h2>
+          <h2 style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--text)", marginBottom: "1.5rem" }}>Top 5 Most Commented Posts</h2>
           {commentedPosts.length === 0 ? (
             <p style={{ color: "var(--text-muted)" }}>No commented posts yet.</p>
           ) : (
@@ -251,7 +246,22 @@ export default async function StatsPage() {
           </a>
         </div>
       </footer>
+
+      <script dangerouslySetInnerHTML={{ __html: `
+        (function() {
+          var user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+          if (!user) { window.location.href = '/login.html'; return; }
+          var el = document.getElementById('footerProfileAvatar');
+          if (el) el.textContent = user.username.substring(0, 2).toUpperCase();
+          var logoutBtn = document.getElementById('logoutBtn');
+          if (logoutBtn) logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            window.location.href = '/login.html';
+          });
+        })();
+      ` }} />
     </div>
   );
 }
+
 
